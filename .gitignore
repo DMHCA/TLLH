@@ -1,0 +1,32 @@
+# Maven/Gradle
+target/
+build/
+
+# IntelliJ IDEA
+.idea/
+*.iml
+
+# Logs
+*.log
+/logs/
+
+# OS Files
+.DS_Store
+Thumbs.db
+
+# Temporary files
+*.tmp
+*.swp
+
+# Generated files
+*.class
+*.jar
+*.war
+*.ear
+
+# Spring Boot
+*.pid
+
+# Application properties
+application.properties
+application.yml
