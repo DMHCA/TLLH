@@ -2,6 +2,9 @@ package com.romantrippel.tllh.controller;
 
 import com.romantrippel.tllh.dto.LoginRequest;
 import com.romantrippel.tllh.dto.LoginResponse;
+import com.romantrippel.tllh.service.UserService;
+import com.romantrippel.tllh.util.StringUtil;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -13,12 +16,17 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/auth")
 public class LoginController {
 
+    private final UserService userService;
+
+    @Autowired
+    public LoginController(UserService userService) {
+        this.userService = userService;
+    }
+
     @PostMapping("/login")
     public ResponseEntity<LoginResponse> login (@RequestBody LoginRequest loginRequest) {
 
-        //TODO implement authenticate method
-//        boolean isAuthenticated = authenticate(loginRequest.getUsername(), loginRequest.getPassword());
-        boolean isAuthenticated = true;
+        boolean isAuthenticated = userService.authenticate(loginRequest.getUsername(), loginRequest.getPassword());
 
         if (!isAuthenticated) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build(); 
@@ -34,8 +42,10 @@ public class LoginController {
 
         //TODO implement JWT generation
     private String generateJwtToken (String login) {
+        if (StringUtil.isEmptyOrBlank(login)) {
+            return "invalidUser";
+        }
 
-        //some code
-        return login;
+        return  "validUser";
     }
 }
